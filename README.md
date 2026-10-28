@@ -1,4 +1,5 @@
 # Vault Wars — Netlify-ready multiplayer
+Live Game Link: https://vaultwars.netlify.app/
 
 ## Publish without a terminal
 
