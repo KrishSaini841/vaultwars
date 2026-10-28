@@ -1,0 +1,8 @@
+[
+  {
+    "name": "game",
+    "runtime": "js",
+    "entry": "netlify/functions/game.ts",
+    "inputCount": 15
+  }
+]
