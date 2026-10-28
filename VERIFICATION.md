@@ -6,13 +6,13 @@ Verified on 2026-10-28 using Node.js 24.22.1 and a clean installation from packa
 
 - Clean dependency install from the lockfile.
 - TypeScript check.
-- Fifteen automated game, call-signaling, and media-controller test groups covering completed games, conditional-write conflicts, eight-player capacity, host permissions, hidden bids, malformed requests, immutable bids, deadline auto-passes, duplicate requests, rematches, final unclaimed vaults, tied winners, credit tiebreaks, and chat.
+- Eighteen automated game, call-signaling, and media-controller test groups covering completed games, conditional-write conflicts, eight-player capacity, host permissions, hidden bids, malformed requests, immutable bids, deadline auto-passes, duplicate requests, rematches, final unclaimed vaults, tied winners, credit tiebreaks, and chat.
 - Production Vite build, with all referenced output assets present.
 - Netlify function packaging using @netlify/zip-it-and-ship-it 16.6.0: exactly one standard function, `game`.
 - Executed the code extracted from packaged-functions/game.zip using the real @netlify/blobs 11.1.7 SDK and its local storage emulator.
 - Re-imported the packaged function as a cold instance and recovered final room state from storage.
 - Frontend uses only the native `/.netlify/functions/game` endpoint for game requests.
-- The existing game engine is byte-for-byte unchanged. Original casino CSS is preserved, with additional styles scoped to the call panel.
+- Bidding, scoring, round length, and winner rules are unchanged. Room metadata now includes visibility. Original casino CSS is preserved, with styles added for calls and room discovery.
 
 ## Complete two-player, three-round fixture
 
@@ -43,3 +43,12 @@ The Blobs 11.1.7 local emulator returns ETags on writes but omits them on reads.
 Production code requires an actual storage ETag and fails closed if one is absent. The standard Netlify function uses automatically supplied runtime credentials and strong consistency.
 
 No live Netlify account deployment or browser visual test was performed. The ZIP is prepared for Netlify's signed-in source-project Drop flow; anonymous static publishing does not build server functions.
+
+## Public/private discovery and badge policy
+
+- Public rooms appear in the directory; private room codes and authentication tokens are absent.
+- Public one-click joining and private correct-code joining pass; wrong codes and private rooms targeted through public joining are rejected.
+- Full, started, expired and offline-host rooms are excluded; stale join attempts are revalidated.
+- Simultaneous public creation retains entries using conditional writes; old rooms without visibility metadata remain private.
+- Packaged-function integration verifies the public directory and both joining flows against the Blobs SDK/emulator.
+- Production configuration includes the badge-blocking CSP. The built HTML contains no inline scripts, and all game script assets are local. Actual badge disappearance on the deployed site remains unverified; Netlify's documented dashboard toggle is included in README.md.

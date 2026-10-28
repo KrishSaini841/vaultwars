@@ -1,5 +1,4 @@
 # Vault Wars — Netlify-ready multiplayer
-Live Game Link: https://vaultwars.netlify.app/
 
 ## Publish without a terminal
 
@@ -19,6 +18,20 @@ No GitHub connection, user-supplied environment variables, API keys, or manual d
 - Strongly consistent Netlify Blobs reads, conditional room creation, ETag-guarded updates, and retry on concurrent writes.
 - Prepackaged `packaged-functions/game.zip`, built with Netlify's own function packager. Netlify's project build also packages the function from source automatically.
 - Root `netlify.toml`, `package.json`, lockfile, TypeScript configuration, build and verification scripts, and tests.
+
+## Public and private rooms
+
+Choose **Private** (the default) or **Public** when creating a room. Public rooms appear under **Find a table** on the home screen. Enter your alias and select **Join room** to enter directly without typing a code. Private rooms are hidden from this list; enter their correct six-character code to join. Incorrect codes are rejected. A room code is an invitation secret, not an account password.
+
+The list refreshes automatically every 10 seconds and has a manual refresh button. Only public lobbies with space and a host active within the last 30 seconds are listed. Started, full, stale, and private rooms are omitted, and joining rechecks these conditions on the server. The directory shows up to 40 recent joinable rooms from the latest 200 public rooms created in the last 24 hours. Existing rooms from earlier versions remain private.
+
+## Netlify badge
+
+There is no Netlify logo or badge in the frontend source. Netlify may inject its Powered by Netlify badge after deployment. This package sets a Content Security Policy in root `netlify.toml` with `script-src 'self'` (no inline scripts) and `frame-src 'none'`. Netlify documents that a policy without inline script permission prevents its injected badge from rendering. All game scripts are bundled local files; the existing inline styles, same-origin API, and media elements are allowed.
+
+The deployed site's badge cannot be visually verified here. If your existing project's settings override the supplied headers, the direct permanent setting is **Project configuration → General → Powered by Netlify badge → Off → Save**. That setting takes effect on the next request without a redeploy. This ZIP cannot change your account's dashboard setting.
+
+Reference: https://docs.netlify.com/manage/projects/powered-by-netlify-badge/
 
 ## Voice and video for the room
 
